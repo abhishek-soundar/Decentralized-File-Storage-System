@@ -1,6 +1,6 @@
 Decentralized File Storage System (DCFS)
 
-A fully functional, production-deployed decentralized file storage web application built with the MERN stack, integrated with IPFS via Pinata, Redis for real-time job management, and JWT-based authentication for secure access.
+A production-ready decentralized file storage web application powered by the MERN stack, IPFS via Pinata, and Redis Cloud for real-time file management — built, deployed, and maintained by Abhishek S.
 
 🌐 Frontend Live: https://decentralized-file-storage-system-eta.vercel.app/
 
@@ -8,249 +8,202 @@ A fully functional, production-deployed decentralized file storage web applicati
 
 🚀 Overview
 
-The Decentralized File Storage System (DCFS) allows users to securely upload, pin, and retrieve files over a decentralized storage network using IPFS (InterPlanetary File System).
+The Decentralized File Storage System (DCFS) enables users to upload, pin, and retrieve files on the InterPlanetary File System (IPFS) network using Pinata Cloud, while offering a secure and intuitive dashboard to manage all files.
 
-It ensures:
-
-💾 Decentralized storage — files are uploaded via Pinata IPFS Gateway and stored immutably.
-
-🔒 Secure access — users authenticate using JWT tokens (with cookies fallback).
-
-⚡ Fast real-time performance — powered by Redis + BullMQ for background jobs.
-
-🎨 Modern responsive UI — built using React + Vite, deployed on Vercel.
-
-🌍 Scalable backend — built using Express.js, MongoDB, and deployed on Render.
+It combines decentralization, scalability, and security — perfect for cloud-independent, censorship-resistant file management.
 
 🧩 Tech Stack
 Layer	Technology	Purpose
-Frontend	React.js + Vite + Tailwind CSS	Responsive, fast SPA for upload, login, and dashboard
-Backend	Node.js + Express.js	REST API with authentication, file handling, and IPFS pinning
-Database	MongoDB Atlas	Store user credentials and metadata
-Decentralized Storage	IPFS via Pinata Cloud	Actual file storage on a distributed network
-Cache / Queue	Redis Cloud	Queue management and real-time updates
-Authentication	JWT (JSON Web Token)	Secure stateless authentication
-Deployment	Vercel (Frontend), Render (Backend)	Global CDN and containerized runtime for scalability
+Frontend	React.js + Vite + Tailwind CSS	Responsive UI for uploads, dashboard, and preview
+Backend	Node.js + Express.js	REST API for authentication, IPFS pinning, and retrieval
+Database	MongoDB Atlas	Stores user credentials and file metadata
+Decentralized Storage	IPFS via Pinata Cloud	Distributed storage for all uploaded files
+Cache / Queue	Redis Cloud	Background job management for pinning and progress tracking
+Authentication	JWT (JSON Web Tokens)	Secure session management
+Deployment	Vercel (Frontend) + Render (Backend)	Scalable, production-grade cloud infrastructure
 📸 Features
-👤 User Authentication
+👤 Authentication
 
-Secure Sign Up and Login using JWT.
+Secure Signup / Login with password hashing (bcrypt).
 
-Passwords hashed before storage.
+Stateless authentication using JWT tokens stored in cookies.
 
-Session persistence with secure HTTP-only cookies.
+Protected routes on both frontend and backend.
 
-📤 File Upload & Pinning
+📁 File Management
 
-Uploads images, videos, PDFs, ZIPs, and other supported types.
+Upload and store files to IPFS (via Pinata API).
 
-Pinned automatically to IPFS via Pinata API.
+Supported formats: images, videos, PDFs, ZIPs, and more.
 
-Generates unique IPFS CID for retrieval.
+Maximum upload limit: 500MB.
 
-500MB max upload limit (configurable).
+Auto-generated IPFS CIDs with preview and metadata.
 
-📂 File Management
+⚙️ Real-Time & Background Jobs
 
-Each user can view uploaded files with metadata (name, size, type, CID).
+Uploads are handled asynchronously using BullMQ (Redis-based queue).
 
-Download files directly using IPFS gateway links.
+Server-Sent Events (SSE) provide live feedback on pinning status.
 
-Files stored immutably and verifiably.
+Users can see upload progress in real-time.
 
-⚙️ Background Jobs (Redis + BullMQ)
+🧩 File Sharing
 
-File processing and IPFS pinning handled asynchronously.
+Choose between public (IPFS link) or controlled sharing.
 
-Ensures fast uploads and non-blocking API.
+Access control via MongoDB-stored sharedWith lists.
 
-Redis connection configured via Redis Cloud.
+🖼️ File Preview Modal
 
-💬 Real-time SSE Notifications
+Click thumbnails to preview images/videos instantly in a modal lightbox.
 
-Live feedback to frontend during uploads or processing.
+Displays file metadata like CID, size, and type.
 
-Uses Redis pub/sub channels (dfsd:jobs).
+💬 Admin Tools
 
-🔐 Role-based Access
+Background job monitoring via BullMQ Dashboard (optional route).
 
-Admin routes for system monitoring (optional).
+API health route (/health) for monitoring uptime.
 
-Secure route middleware ensuring only authenticated access.
-
-⚙️ Environment Configuration
-
-Below are the essential .env variables used across both environments:
-
-🖥️ Backend (.env)
-NODE_ENV=production
-PORT=4000
-
-# MongoDB Connection
-MONGO_URI=mongodb+srv://user:QEWKm0s4wCGkhhPh@cluster0.4nourli.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-
-# Authentication
-JWT_SECRET=your_super_secret_key_here
-JWT_EXPIRES_IN=1d
-
-# File Upload Config
-MAX_UPLOAD_SIZE_BYTES=524288000
-TEMP_UPLOAD_DIR=./tmp/uploads
-ALLOWED_MIMETYPES=image/*,video/*,application/pdf,application/zip
-
-# IPFS / Pinata
-PINATA_JWT=<your_pinata_jwt_token>
-PINATA_API_KEY=1e7424f31247e97322c2
-PINATA_API_SECRET=1c3ab0e914fa97439b8295e0d79b2423ccaf748abd4764eddfae9c8911063a43
-
-# Redis Cloud
-REDIS_URL=rediss://default:VXy09zx5ktQEj2KBg6akZoctJKBVpV6P@redis-16803.crce182.ap-south-1-1.ec2.redns.redis-cloud.com:16803
-
-# CORS
-CORS_ORIGINS=http://localhost:5173,https://decentralized-file-storage-system-eta.vercel.app
-
-# Logging
-LOG_LEVEL=info
-
-🛠️ Project Setup (Local Development)
-1️⃣ Clone Repository
-git clone https://github.com/abhishek-soundar/Decentralized-File-Storage-System.git
-cd Decentralized-File-Storage-System
-
-2️⃣ Backend Setup
-cd backend
-npm install
-
-
-Create a .env file (copy from example above) and start the backend:
-
-npm run dev
-
-
-It should show:
-
-[info] MongoDB connected
-[info] Server running on port 4000 — env development
-
-3️⃣ Frontend Setup
-cd ../frontend
-npm install
-npm run dev
-
-
-Now open:
-👉 http://localhost:5173
-
-🌍 Deployment Details
+🌍 Deployment
 Layer	Platform	URL
-Frontend	Vercel	https://decentralized-file-storage-system-eta.vercel.app
+Frontend	Vercel
+	https://decentralized-file-storage-system-eta.vercel.app
 
-Backend	Render	https://decentralized-file-storage-system-backend.onrender.com
+Backend	Render
+	https://decentralized-file-storage-system-backend.onrender.com
 
-Database	MongoDB Atlas	Managed Cloud
-Redis	Redis Cloud	Managed Cache
-IPFS	Pinata Cloud	File Storage Gateway
+Database	MongoDB Atlas
+	Managed Cloud
+Cache / Queue	Redis Cloud
+	Message broker for background jobs
+Storage	Pinata IPFS
+	Decentralized file pinning
+🧭 How It Works
+
+User logs in — credentials validated via JWT auth.
+
+User uploads a file — the backend saves it temporarily, then pins it to IPFS.
+
+Background worker (BullMQ) handles large file processing asynchronously.
+
+Pinata IPFS returns CID — the file becomes immutable and decentralized.
+
+Dashboard updates in real-time via Redis pub/sub messages.
+
+User can preview, download, or share the file instantly.
+
+🧠 System Architecture
+┌───────────────────────────┐
+│        Frontend (React)   │
+│  - Uploads via API        │
+│  - Displays files, CIDs   │
+│  - Real-time updates      │
+└────────────┬──────────────┘
+             │ REST API
+┌────────────┴──────────────┐
+│       Backend (Express)   │
+│  - Auth & Token Mgmt      │
+│  - File Upload Handling   │
+│  - Pinata IPFS API Calls  │
+│  - Queue Jobs → Redis     │
+└────────────┬──────────────┘
+             │
+┌────────────┴──────────────┐
+│   Redis Cloud (BullMQ)    │
+│  - Background Workers     │
+│  - Event Streams (SSE)    │
+└────────────┬──────────────┘
+             │
+┌────────────┴──────────────┐
+│  Pinata IPFS + MongoDB    │
+│  - File Metadata Storage  │
+│  - IPFS CID Persistence   │
+└───────────────────────────┘
+
+💡 Highlights
+
+✅ CORS Whitelisting System
+Dynamically configured via environment variable CORS_ORIGINS for production safety.
+Supports both local (http://localhost:5173) and deployed (vercel.app) frontends.
+
+✅ Fully Managed Infrastructure
+No local Redis or Mongo setup required — all services are cloud-hosted and scalable.
+
+✅ Security First
+
+helmet() for hardened HTTP headers
+
+cookieParser() for JWT handling
+
+express-rate-limit for API protection
+
+Environment-based config separation
+
+✅ Modern UX
+Built with Tailwind, animated components, and modal-based previews.
+
+🧾 API Endpoints Summary
+Method	Endpoint	Description
+POST	/api/v1/auth/signup	Create a new user
+POST	/api/v1/auth/login	Authenticate and return JWT
+GET	/api/v1/files	Retrieve user’s uploaded files
+POST	/api/v1/uploads	Upload a file and pin to IPFS
+GET	/api/v1/streams/:cid	Stream or download a pinned file
+GET	/health	Check backend health
 🧩 Folder Structure
 Decentralized-File-Storage-System/
 │
 ├── backend/
 │   ├── src/
-│   │   ├── config/              # Environment setup & constants
-│   │   ├── controllers/         # Route logic (auth, uploads, streams)
-│   │   ├── middlewares/         # Error handling, auth validation
-│   │   ├── routes/              # Express routers
-│   │   ├── services/            # IPFS, Redis, BullMQ logic
-│   │   └── utils/               # Logger & helper functions
+│   │   ├── config/              # Configuration & constants
+│   │   ├── controllers/         # Auth, Uploads, Files, Admin logic
+│   │   ├── middlewares/         # Authentication, Validation, Error handling
+│   │   ├── models/              # Mongoose models for users/files
+│   │   ├── routes/              # Express route definitions
+│   │   ├── services/            # Redis, IPFS, Queue, SSE logic
+│   │   └── utils/               # Logger, Exceptions, Helpers
 │   ├── package.json
-│   └── .env
+│   └── Dockerfile (optional)
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── pages/               # Login, Signup, Dashboard
-│   │   ├── components/          # Upload form, file cards, navbar
-│   │   ├── utils/               # API helpers, axios config
-│   │   └── styles/              # Tailwind styles
+│   │   ├── pages/               # Login, Upload, Dashboard
+│   │   ├── components/          # Reusable UI parts
+│   │   ├── hooks/               # Custom React hooks
+│   │   └── utils/               # Helper functions
+│   ├── public/
 │   ├── package.json
 │   └── vite.config.js
 │
 └── README.md
 
-🔐 API Endpoints Summary
-Method	Endpoint	Description
-POST	/api/v1/auth/signup	Register a new user
-POST	/api/v1/auth/login	Authenticate & return JWT
-GET	/api/v1/files/list	Get all uploaded files
-POST	/api/v1/uploads	Upload a file to IPFS via Pinata
-GET	/api/v1/streams/:cid	Stream/download file from IPFS
-GET	/health	Backend health check
-💡 Highlights & Implementation Insights
+👨‍💻 Author
 
-Redis Cloud Integration:
-Used as a message broker to handle file uploads asynchronously and emit progress updates using Server-Sent Events (SSE).
+Abhishek S
+BMS Institute of Technology and Management — CSE (2022–26)
+Full Stack Developer | MERN Stack | DSA Enthusiast
 
-Pinata IPFS Integration:
-The backend uploads files to IPFS through Pinata’s JWT-based API, ensuring secure, rate-limited access.
-
-CORS Whitelisting System:
-Dynamically configured from CORS_ORIGINS env var. This enables secure access for both local (localhost:5173) and production (vercel.app) frontends.
-
-Security Best Practices:
-
-helmet() for HTTP headers
-
-cookieParser() for secure token management
-
-Strict MIME-type filtering on uploads
-
-JWT tokens with expiration & rotation
-
-Scalability:
-Fully containerized and horizontally scalable on Render.
-Redis ensures background queue separation from the API thread.
-
-🧾 License
-
-This project is licensed under the MIT License — free to use, modify, and distribute with attribution.
-
-✨ Author
-
-👨‍💻 Abhishek S
-BMS Institute of Technology and Management (CSE 2022–26)
-Full Stack Developer | MERN | DSA | Problem Solver
-
-📬 Reach me on:
+📬 Connect with me:
 
 GitHub: @abhishek-soundar
 
-LinkedIn: linkedin.com/in/abhishek-soundar
+LinkedIn: [linkedin.com/in/abhishek-soundar
+](https://www.linkedin.com/in/abhisheks11/)
 
-🌟 Acknowledgments
+🏁 Conclusion
 
-Render
- for free-tier backend hosting
+The Decentralized File Storage System is a full-fledged demonstration of:
 
-Vercel
- for frontend deployment
+Cloud-native deployment
 
-MongoDB Atlas
- for managed database
+Decentralized architecture
 
-Pinata
- for IPFS pinning service
+Secure backend integration
 
-Redis Cloud
- for managed in-memory data store
+Modern, responsive frontend
 
-🎯 Final Notes
+It bridges the gap between Web2 usability and Web3 decentralization — a perfect blend of performance, reliability, and innovation.
 
-This project demonstrates a production-ready decentralized file storage solution using modern full-stack practices:
-
-Secure authentication
-
-Real-time event handling
-
-Scalable cloud deployment
-
-Clean code organization
-
-“Decentralized storage isn’t the future — it’s already here.” 🚀
+“A single file can live forever on IPFS — DCFS just makes it beautifully accessible.” 🚀
