@@ -1,0 +1,40 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+.cache/
+.next/
+out/
+
+# Environment files (contain secrets)
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Uploads or temp files
+uploads/
+temp/
+tmp/
+*.tmp
+
+# Coverage & test results
+coverage/
+*.lcov
+
+# Local database or files
+*.sqlite
+*.db
